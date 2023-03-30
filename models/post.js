@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize('sqlite::memory:');
 
-const Post = sequelize.define('Post', {
+const post = sequelize.define('post', {
         id: {
           type: DataTypes.INTEGER,
           primaryKey: true,
@@ -30,4 +30,4 @@ const Post = sequelize.define('Post', {
         }
 });
 
-module.exports = Post;
+module.exports = post;

@@ -1,4 +1,4 @@
-const Post = require('../models/post');
+const post = require('../models/post');
 const fs = require('fs');
 
 exports.createpost = async (req, res, next) => {
@@ -6,7 +6,7 @@ exports.createpost = async (req, res, next) => {
     const { idpost, iduser, content, postDate } = JSON.parse(req.body.post);
     const media = req.file ? url + '/images/' + req.file.filename : null;
     try {
-        const post = await Post.create({ idpost, iduser, content, media, postDate, likes: 0 });
+        const post = await post.create({ idpost, iduser, content, media, postDate, likes: 0 });
         res.status(201).json({ message: 'Post saved successfully!', post });
     } catch (error) {
         res.status(400).json({ error });
@@ -47,7 +47,7 @@ exports.modifypost = async (req, res, next) => {
 exports.deletepost = async (req, res, next) => {
     const { id } = req.params;
     try {
-        const post = await Post.findOne({ where: { idpost: id } });
+        const post = await post.findOne({ where: { idpost: id } });
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
@@ -68,7 +68,7 @@ exports.deletepost = async (req, res, next) => {
 
 exports.getAllposts = async (req, res, next) => {
     try {
-        const posts = await Post.findAll();
+        const posts = await post.findAll();
         res.status(200).json(posts);
     } catch (error) {
         res.status(400).json({ error });
