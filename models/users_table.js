@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-    const user = sequelize.define('user', {  
-        id: {
+    const user = sequelize.define('users_table', {
+        iduser: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
@@ -23,18 +23,20 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         dob: {
-            type: DataTypes.NUMBER,
+            type: DataTypes.DATE,
             allowNull: false
         },
         profilePicture: {
-            type: DataTypes.NUMBER,
+            type: DataTypes.STRING,
             allowNull: false
         },
         gender: {
             type: DataTypes.ENUM('Male', 'Female', 'Other'),
             allowNull: true
         }
+    }, {
+        tableName: 'users_table'
     });
-    return user
+    return User;
 };
 
