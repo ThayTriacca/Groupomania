@@ -2,7 +2,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize('sqlite::memory:');
 
 const post = sequelize.define('post', {
-        id: {
+        idpost: {
           type: DataTypes.INTEGER,
           primaryKey: true,
           autoIncrement: true
@@ -21,13 +21,20 @@ const post = sequelize.define('post', {
         },
         postDate: {
           type: DataTypes.DATE,
-          allowNull: false
+          allowNull: false,
         },
         likes: {
           type: DataTypes.INTEGER,
           allowNull: false,
           defaultValue: 0
+        },
+        updatedAt: {
+          type: DataTypes.DATE,
+          allowNull: true
         }
+}, {
+  createdAt: 'postDate',
+  tableName: 'post'
 });
 
 module.exports = post;
