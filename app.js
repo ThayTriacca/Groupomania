@@ -11,7 +11,7 @@ const path = require('path');
 
 const app = express();
 
-const db = new Sequelize('groupomania_db', 'root', '1234', {
+const db = new Sequelize('gpmdb', 'root', '1234', {
   host: 'localhost',
   dialect: 'mysql'
 });

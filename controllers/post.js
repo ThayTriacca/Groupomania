@@ -1,4 +1,4 @@
-const Post = require('../models/posts_table');
+const {Post} = require('../models/posts');
 const fs = require('fs');
 
 exports.createpost = async (req, res, next) => {
@@ -67,10 +67,13 @@ exports.deletepost = async (req, res, next) => {
 };
 
 exports.getAllposts = async (req, res, next) => {
+    console.log("dentro do getallpost")
     try {
         const posts = await Post.findAll();
+        console.log(Post);
         res.status(200).json(posts);
     } catch (error) {
+        console.log(error);
         res.status(400).json({ error });
     }
 };
