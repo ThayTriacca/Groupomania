@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const db = require('../models/index');
 
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10).then(
@@ -32,7 +33,7 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-    User.findOne({where: {email: req.body.email}}).then(
+    db.User.findOne({where: {email: req.body.email}}).then(
         (user) => {
             if(!user) {
                 return res.status(401).json({
