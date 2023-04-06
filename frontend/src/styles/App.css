@@ -26,4 +26,13 @@
   color: #61dafb;
 }
 
+.gm-logo {
+	height: 200px;
+	width: 200px;
+}
 
+.gm-blacklogo {
+  height: 200px;
+  width:200px;
+  margin-bottom: -65px;
+}

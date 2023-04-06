@@ -1,19 +1,20 @@
 import './styles/App.css';
-import DrawerAppBar from './components/ResponsiveAppBar';
-import PostCard from './components/PostCard';
-import InstagramPost from './components/InstagramPost';
+import SignIn from './components/SignIn';
+import MainPage from './components/MainPage';
+import SignUp from './components/SignUp';
+
 
 
 function App() {
 
   return (
+    <Router>
     <div className="App">
-      <DrawerAppBar/>
-      <div className='Body'>
-      <PostCard/>
-      <InstagramPost/>
-      </div>
+      {/* <SignIn/> */}
+      <SignUp/>
+      {/* <MainPage/> */}
     </div>
+    </Router>
   );
 }
 
