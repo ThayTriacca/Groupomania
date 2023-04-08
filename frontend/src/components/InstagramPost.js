@@ -12,6 +12,7 @@ import MoreHoriz from '@mui/icons-material/MoreHoriz';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import LongMenu from './MoreVerticalMenu';
+import ImageAvatars from './avatar';
 
 
 export default function InstagramPost() {
@@ -41,11 +42,12 @@ export default function InstagramPost() {
             },
           }}
         >
-          <Avatar
+          <ImageAvatars/>
+          {/* <Avatar
             size="sm"
             src="/static/logo.png"
             sx={{ p: 0.5, border: '2px solid', borderColor: 'background.body' }}
-          />
+          /> */}
         </Box>
         <Typography fontWeight="lg">User</Typography>
         <IconButton variant="plain" color="neutral" size="sm" sx={{ ml: 'auto' }}>

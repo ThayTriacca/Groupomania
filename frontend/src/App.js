@@ -1,21 +1,14 @@
 import './styles/App.css';
-import SignIn from './components/SignIn';
-import MainPage from './components/MainPage';
-import SignUp from './components/SignUp';
+import React from 'react';
+import AppRouter from './AppRouter';
 
-
-
-function App() {
-
+const App = () => {
   return (
-    <Router>
-    <div className="App">
-      {/* <SignIn/> */}
-      <SignUp/>
-      {/* <MainPage/> */}
+    <div>
+      {/* Renderize o componente do roteador */}
+      <AppRouter />
     </div>
-    </Router>
   );
-}
+};
 
 export default App;

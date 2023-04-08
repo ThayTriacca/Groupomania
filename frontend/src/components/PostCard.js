@@ -10,7 +10,6 @@ import Typography from '@mui/material/Typography';
 import { blue } from '@mui/material/colors';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import LongMenu from './MoreVerticalMenu'
 
 export default function PostCard() {

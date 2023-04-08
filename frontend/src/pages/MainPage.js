@@ -1,6 +1,6 @@
-import ResponsiveAppBar from './ResponsiveAppBar'
-import PostCard from './PostCard';
-import InstagramPost from './InstagramPost';
+import ResponsiveAppBar from '../components/ResponsiveAppBar'
+import PostCard from '../components/PostCard';
+import InstagramPost from '../components/InstagramPost';
 import '../styles/App.css';
 
 

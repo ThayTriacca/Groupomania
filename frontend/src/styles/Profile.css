@@ -1,0 +1,24 @@
+.ProfileContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.ProfileCard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e3e0e0;
+    width: 550px;
+    height: auto;
+    margin-top: 30px;
+    border-radius: 20px;
+    padding: 30px
+}
+
+.ProfilePage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}

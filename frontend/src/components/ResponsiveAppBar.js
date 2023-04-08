@@ -13,10 +13,10 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import logo from '../assets/logo.png';
 import '../styles/App.css'
+import { Link } from 'react-router-dom';
 
 
 const pages = ['Home', 'Add Post'];
-const settings = ['Profile', 'Logout'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -35,6 +35,15 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleProfileClick = () => {
+    handleCloseUserMenu();
+  };
+
+  const handleLogout = () => {
+    handleCloseUserMenu();
+    console.log('Logout clicked');
   };
 
   return (
@@ -78,16 +87,21 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', justifyContent:'right' }, marginRight:5 }}>
-            {pages.map((page) => (
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', justifyContent: 'right' }, marginRight: 5 }}>
+            <Link to="/main" style={{ textDecoration: 'none', color: 'inherit' }}>
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                Home
               </Button>
-            ))}
+            </Link>
+            <Link to="/create-post" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Button
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Add Post
+              </Button>
+            </Link>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -112,11 +126,12 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem component={Link} to="/profile" onClick={handleProfileClick}>
+                <Typography textAlign="center">Profile</Typography>
+              </MenuItem>
+              <MenuItem component={Link} to="/signin" onClick={handleLogout}>
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
