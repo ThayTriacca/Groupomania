@@ -1,14 +1,9 @@
-.ProfileContainer{
-    display: flex;
-    justify-content: center;
-}
-
 .ProfileCard {
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #e3e0e0;
-    width: 550px;
+    width: 800px;
     height: auto;
     margin-top: 30px;
     border-radius: 20px;
@@ -20,5 +15,21 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
 
+.ProfileButtons {
+    display: flex;
+    column-gap: 20px;
+    margin: 30px;
+}
+
+.ProfileAvatar {
+    margin-right: 50px;
+}
+
+.ProfileForm {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    align-items: center;
 }
