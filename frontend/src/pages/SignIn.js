@@ -1,10 +1,8 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -14,6 +12,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import blacklogo from '../assets/blacklogo.png';
 import '../styles/App.css';
+import { BACKEND } from '../global';
 
 function Copyright(props) {
   return (
@@ -31,13 +30,33 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    try {
+      const response = await fetch(`${BACKEND}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        window.location = '/main';
+        console.log(await response.json());
+      } else {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+    } catch (error) {
+      alert("Error: " + error.message);
+      console.error(error);
+    }
   };
 
   return (
@@ -52,7 +71,7 @@ export default function SignIn() {
             alignItems: 'center',
           }}
         >
-        <img src={blacklogo} alt='Groupomania' className='gm-blacklogo' />
+          <img src={blacklogo} alt='Groupomania' className='gm-blacklogo' />
           <Avatar sx={{ m: 1, bgcolor: 'black' }}>
             <LockOutlinedIcon />
           </Avatar>
@@ -64,25 +83,23 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
               label="Email Address"
               name="email"
               autoComplete="email"
               autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value )}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
               label="Password"
+              name="password"
               type="password"
-              id="password"
               autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              value={password}
+              onChange={(e) => setPassword(e.target.value )}
             />
             <Button
               type="submit"
@@ -93,11 +110,6 @@ export default function SignIn() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
                 <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}

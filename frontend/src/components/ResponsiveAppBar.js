@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import logo from '../assets/logo.png';
 import '../styles/App.css'
 import { Link } from 'react-router-dom';
-
+import handleLogout from './logout';
 
 const pages = ['Home', 'Add Post'];
 
@@ -39,11 +39,6 @@ function ResponsiveAppBar() {
 
   const handleProfileClick = () => {
     handleCloseUserMenu();
-  };
-
-  const handleLogout = () => {
-    handleCloseUserMenu();
-    console.log('Logout clicked');
   };
 
   return (
