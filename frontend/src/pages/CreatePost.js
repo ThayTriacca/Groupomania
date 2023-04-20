@@ -5,6 +5,7 @@ import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import '../styles/PostCard.css'
 import UploadAndDisplayImage from '../components/UploadImages';
 import { Button } from '@mui/material';
+import { BACKEND } from '../global';
 
 function RedBar() {
     return (
@@ -21,25 +22,36 @@ class CreatePost extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          content: [],
-          media: [],
+          content: '',
+          media: '',//upload an imahge put here
+          iduser:'//* look at the sessionStorag*/'
         };
       }
 
-    //   componentDidMount() {
-    //     fetch("")
-    //       .then((res) => res.json())
-    //       .then((data) => {
-    //         this.setState({
-    //           content: data,
-    //           loaded: true,
-    //         });
-    //       });
-    //   }
+      handleContentChange = (event) => {
+        this.setState({
+            content: event.target.value
+        });
+      }
+
+      handleAddPost = () => {
+        console.log('Valor do conteudo aqui:', this.state.content);
+      }
+
+
+      submitPost = () =>{
+        console.log('Content:', this.state.content);
+        //add a body from this.state
+        fetch(`${BACKEND}/post`)
+        .then((res) => res.json())
+        .then((data) => {
+       
+        });
+      }
 
 
     render() {
-        let { content, media } = this.state;
+        // let { content, media } = this.state;
 
         return (
             <div className="PostPage">
@@ -61,12 +73,10 @@ class CreatePost extends Component {
                                 variant="outlined"
                                 multiline
                                 rows={5}
-                                onChange={(event) => {
-                                    this.state.content = event.target.value;
-                                    console.log("Valor", this.state.content);
-                                }}
+                                value= {this.state.content}
+                                onChange= {this.handleContentChange}
                             />
-                            <UploadAndDisplayImage />
+                            <UploadAndDisplayImage /*props to revceive event with image url*/ />
                             <RedBar />
                             <Button variant="contained" color="primary" component="span">
                                 Add Post

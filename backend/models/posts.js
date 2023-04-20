@@ -17,11 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     iduser: DataTypes.INTEGER,
     content: DataTypes.STRING,
     media: DataTypes.STRING,
-    postDate: DataTypes.DATE,
-    likes: DataTypes.INTEGER,
-    usersliked: DataTypes.STRING,
-    dislikes: DataTypes.INTEGER,
-    usersdisliked: DataTypes.STRING
+    readby: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Posts',

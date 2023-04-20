@@ -33,7 +33,7 @@ const UploadAndDisplayImage = () => {
       />
       <label htmlFor="contained-button-file">
         <Button variant="contained" color="primary" component="span">
-          Upload
+          Upload Media
         </Button>
       </label>
     </div>

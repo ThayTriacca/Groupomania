@@ -47,8 +47,10 @@ class SignUp extends React.Component {
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
+      sessionStorage.setItem('userId', data.userId);
+      sessionStorage.setItem('token', data.token);
       window.location = '/main';
+      console.log(data.userId);
     })
     .catch(error => {
       alert("Error " + error.message);

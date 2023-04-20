@@ -47,8 +47,11 @@ export default function SignIn() {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        sessionStorage.setItem('userId', data.userId);
+        sessionStorage.setItem('token', data.token);
         window.location = '/main';
-        console.log(await response.json());
+        console.log(data.userId);
       } else {
         const error = await response.json();
         throw new Error(error.message);

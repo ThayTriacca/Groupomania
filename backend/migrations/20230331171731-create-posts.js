@@ -23,19 +23,10 @@ module.exports = {
       media: {
         type: Sequelize.STRING
       },
-      postDate: {
-        type: Sequelize.DATE
-      },
       likes: {
         type: Sequelize.INTEGER
       },
-      usersliked: {
-        type: Sequelize.STRING
-      },
-      dislikes: {
-        type: Sequelize.INTEGER
-      },
-      usersdisliked: {
+      readby: {
         type: Sequelize.STRING
       },
       createdAt: {

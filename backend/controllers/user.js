@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const db = require('../models/index');
+const user = require('../models/user');
 
 exports.signup = async (req, res, next) => {
     console.log(req.body);
@@ -22,8 +23,6 @@ exports.signup = async (req, res, next) => {
             error: error
         });
     }
-
-   // return res.status(200).json({'çola':'getg'});
 };
 
 exports.login = async (req, res, next) => {
@@ -59,13 +58,75 @@ exports.login = async (req, res, next) => {
 exports.logout = (req, res, next) =>{
     const token = req.headers.authorization;
     if (!token) {
-      return res.status(401).json({ message: 'Token não fornecido' });
+      return res.status(401).json({ message: 'Token not given!' });
     }
-    jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    jwt.verify(token, SECRET_TOKEN_GROUPOMANIA, (err, decoded) => {
         if (err) {
-          return res.status(401).json({ message: 'Token inválido' });
+          return res.status(401).json({ message: 'Invalid Token!' });
         } else {
-          res.json({ message: 'Logout bem sucedido' });
+          res.json({ message: 'Logout!' });
         }
       });
  };
+
+exports.displayUser = (req, res, next) => {
+    db.User.findOne({
+        where: {
+            id: req.params.id
+        }
+        // attributes: {
+        //     exclude: ['password']
+        // }
+    })
+    .then ((user) => {
+        if (user) {
+            res.status(200).json(user)
+        } else {
+            res.status(404).json({
+                status: 404,
+                message: 'User not found'
+            });
+        }
+    })
+    .catch(err => {
+        res.send('error: ' + err)
+    })
+}
+
+exports.updateprofile = (req, res, next) => {
+    const userId = req.params.userId; // Use o ID do usuário da URL
+    const {userData} = req.body;
+  
+    db.User.update({
+      where: {
+        id: userId // Use o ID do usuário da URL
+      }
+    })
+    .then(user => {
+      if (!user) {
+        res.status(404).json({ message: 'User not found' });
+      } else if (user.id !== userId) {
+        res.status(403).json({ message: 'Access not allowed' });
+      } else {
+        return user.update({
+          email: userData.email,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          profilePicture: url + '/images/' + req.file.filename
+        });
+      }
+    })
+    .then(updatedUser => {
+      res.status(200).json({
+        message: 'Updated successfully!',
+        user: updatedUser
+      });
+    })
+    .catch(err => {
+      res.status(500).json({ message: err.message });
+    });
+  };
+  
+  
+
+//exports.deleteuser

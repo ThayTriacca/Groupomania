@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,12 +15,35 @@ import logo from '../assets/logo.png';
 import '../styles/App.css'
 import { Link } from 'react-router-dom';
 import handleLogout from './logout';
+import { BACKEND } from '../global';
 
 const pages = ['Home', 'Add Post'];
 
 function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [user, setUser] = useState(null);
+  const [firstNameInitial, setFirstNameInitial] = useState('');
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userId = sessionStorage.getItem('userId');
+        const response = await fetch(`${BACKEND}/auth/${userId}`);
+        if (response.ok) {
+          const userData = await response.json();
+          setUser(userData);
+          setFirstNameInitial(userData.firstName.charAt(0).toUpperCase());
+        } else {
+          console.error('Erro ao buscar dados do usuário:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar dados do usuário:', error);
+      }
+    };
+  
+    fetchUserData();
+  }, []);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -102,7 +125,9 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="User Profile" src={user?.profilePicture || ''}>
+                {!user?.profilePicture && user?.firstName ? user.firstName.charAt(0).toUpperCase() : <Avatar alt="User Profile" src={user?.profilePicture || ''} />}
+                </Avatar>
               </IconButton>
             </Tooltip>
             <Menu
@@ -124,7 +149,7 @@ function ResponsiveAppBar() {
               <MenuItem component={Link} to="/profile" onClick={handleProfileClick}>
                 <Typography textAlign="center">Profile</Typography>
               </MenuItem>
-              <MenuItem component={Link} to="/signin" onClick={handleLogout}>
+              <MenuItem component={Link} onClick={handleLogout}>
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
             </Menu>

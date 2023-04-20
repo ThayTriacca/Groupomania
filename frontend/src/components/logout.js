@@ -10,6 +10,8 @@ const handleLogout = () => {
     })
     .then(response => response.json())
     .then(data => {
+      sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('token');
       window.location = '/signin'; 
       console.log(data)
       console.log('User logout!');
