@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import Button from '@mui/material/Button';
 
-const UploadAndDisplayImage = () => {
+const UploadAndDisplayImage = ({ onChange }) => {
 
   const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageChange = (event) => {
+    console.log(event.target.files[0]);
+    setSelectedImage(event.target.files[0]);
+    onChange(event.target.files[0]);
+  }
 
   return (
     <div>
@@ -26,10 +32,7 @@ const UploadAndDisplayImage = () => {
         accept="image/*"
         style={{ display: 'none' }}
         id="contained-button-file"
-        onChange={(event) => {
-            console.log(event.target.files[0]);
-            setSelectedImage(event.target.files[0]);
-        }}
+        onChange={ handleImageChange}
       />
       <label htmlFor="contained-button-file">
         <Button variant="contained" color="primary" component="span">

@@ -10,6 +10,8 @@ router.post('/login', userCtrl.login);
 router.post('/logout', userCtrl.logout);
 router.get('/:id', userCtrl.displayUser);
 router.put('/:id', auth, multer, userCtrl.updateprofile);
+router.delete('/:id', auth, userCtrl.deleteUser);
+// router.put('/:id/profilePicture', multer, userCtrl.profilePicture);
 
 
 module.exports = router;

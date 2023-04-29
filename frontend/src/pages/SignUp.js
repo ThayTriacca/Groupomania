@@ -46,11 +46,33 @@ class SignUp extends React.Component {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(data => {
-      sessionStorage.setItem('userId', data.userId);
-      sessionStorage.setItem('token', data.token);
-      window.location = '/main';
-      console.log(data.userId);
+    .then(async data => {
+      console.log(data);
+      try {
+        const response = await fetch(`${BACKEND}/auth/login`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          sessionStorage.setItem('userId', data.userId);
+          sessionStorage.setItem('token', data.token);
+          sessionStorage.setItem('firstName', data.firstName);
+          window.location = '/main';
+          console.log(data.userId);
+        } else {
+          const error = await response.json();
+          throw new Error(error.message);
+        }
+      } catch (error) {
+        alert("Error: " + error.message);
+        console.error(error);
+      }
     })
     .catch(error => {
       alert("Error " + error.message);

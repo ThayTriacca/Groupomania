@@ -1,18 +1,21 @@
-// const Posts = require('../models/posts');
+const Posts = require('../models/posts');
 const fs = require('fs');
 const db = require('../models/index');
 
 exports.createPosts = async (req, res, next) => {
-    const url = req.protocol + '://' + req.get('host');
-    const { iduser, content, postDate } = JSON.parse(req.body.post);
-    const media = req.file ? url + '/images/' + req.file.filename : null;
-    try {
-      const post = await db.Posts.create({ iduser, content, media, readby});
-      res.status(201).json({ message: 'Post saved successfully!', post });
-    } catch (error) {
-      res.status(400).json({ error });
-    }
-  };
+  const url = req.protocol + '://' + req.get('host');
+  const postInfo = req.body;
+  const post = db.Posts.create({
+    userId: req.body.userId,
+    createdByName: req.body.createdByName,
+    content: postInfo.content,
+    imageUrl: req.file ? url + '/images/' + req.file.filename : null
+  }) .then ((post) => {
+    res.status(201).json({ message: 'Post saved successfully!', post});
+  }) .catch((error) => {
+    res.status(400).json({error: error})
+  })
+};
   
   exports.getOnePost = async (req, res, next) => {
     const { id } = req.params;
@@ -24,10 +27,10 @@ exports.createPosts = async (req, res, next) => {
     }
   };
   
-  exports.modifyPosts = async (req, res, next) => {
+exports.modifyPosts = async (req, res, next) => {
     const { id } = req.params;
     const { iduser, content, readby } = JSON.parse(req.body.post);
-    const media = req.file ? req.protocol + '://' + req.get('host') + '/images/' + req.file.filename : req.body.post.media;
+    const imageUrl = req.file ? req.protocol + '://' + req.get('host') + '/images/' + req.file.filename : req.body.post.imageUrl;
     try {
       const post = await db.Posts.findOne({ where: { id } });
       if (!post) {
@@ -35,7 +38,7 @@ exports.createPosts = async (req, res, next) => {
       }
       post.iduser = iduser;
       post.content = content;
-      post.media = media;
+      post.imageUrl = imageUrl;
       post.readby = readby;
       await post.save();
       res.status(200).json({ message: 'Post updated successfully!', post });
@@ -51,7 +54,7 @@ exports.createPosts = async (req, res, next) => {
       if (!post) {
         return res.status(404).json({ message: 'Post not found' });
       }
-      const filename = post.media ? post.media.split('/images/')[1] : null;
+      const filename = post.imageUrl ? post.imageUrl.split('/images/')[1] : null;
       if (filename) {
         fs.unlink('images/' + filename, () => {
           post.destroy();
@@ -80,17 +83,17 @@ exports.createPosts = async (req, res, next) => {
 
 // exports.postsLikes = async (req, res, next) => {
 //     const { id } = req.params;
-//     const { iduser, like } = req.body;
+//     const { userId, like } = req.body;
 //     try {
 //       const post = await db.Posts.findOne({ where: { id } });
 //       if (!post) {
 //         return res.status(404).json({ message: 'Post not found' });
 //       }
 //       const usersLiked = post.usersLiked || [];
-//       const index = usersLiked.indexOf(iduser);
+//       const index = usersLiked.indexOf(userId);
 //       if (like === 1 && index === -1) {
 //         post.likes += 1;
-//         post.usersLiked = usersLiked.concat(iduser);
+//         post.usersLiked = usersLiked.concat(userId);
 //       } else if (like === -1 && index !== -1) {
 //         post.likes -= 1;
 //         post.usersLiked.splice(index, 1);

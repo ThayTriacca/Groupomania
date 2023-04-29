@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const db = require('../models/index');
 const user = require('../models/user');
+const multer = require('../middleware/multer-config');
+const e = require('express');
 
 exports.signup = async (req, res, next) => {
     console.log(req.body);
@@ -46,7 +48,8 @@ exports.login = async (req, res, next) => {
         );
         res.status(200).json({
             userId: user.id,
-            token: token
+            token: token,
+            firstName: user.firstName
         });
     } catch (error) {
         res.status(500).json({
@@ -93,40 +96,68 @@ exports.displayUser = (req, res, next) => {
     })
 }
 
-exports.updateprofile = (req, res, next) => {
-    const userId = req.params.userId; // Use o ID do usuário da URL
-    const {userData} = req.body;
-  
-    db.User.update({
-      where: {
-        id: userId // Use o ID do usuário da URL
-      }
-    })
-    .then(user => {
+exports.updateprofile = async (req, res, next) => {
+    try {
+      const userId = req.params.id; 
+      console.log('UserId:', userId);
+      console.log('UserData:', req.body);
+      const user = await db.User.findOne({
+        where: {
+          id: userId
+        }
+      });
+      console.log('User:', user);
       if (!user) {
         res.status(404).json({ message: 'User not found' });
-      } else if (user.id !== userId) {
+      } else if (user.id != userId) { 
+        console.log('userId:', userId, 'user.id:', user.id);
         res.status(403).json({ message: 'Access not allowed' });
       } else {
-        return user.update({
-          email: userData.email,
-          firstName: userData.firstName,
-          lastName: userData.lastName,
-          profilePicture: url + '/images/' + req.file.filename
+        let updatedUserData = {
+            email: req.body.email,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            profilePicture: url + '/images/' + req.file.filename
+          };
+  
+        //   if (req.file) {
+        //     console.log("Profile Picture " + req.file.filename)
+        //     updatedUserData.profilePicture = req.file.filename;
+        //   }
+  
+          const updatedUser = await user.update(updatedUserData);
+        console.log('Updated User:', updatedUser);
+        res.status(200).json({
+          message: 'Updated successfully!',
+          user: updatedUser
         });
       }
-    })
-    .then(updatedUser => {
-      res.status(200).json({
-        message: 'Updated successfully!',
-        user: updatedUser
-      });
-    })
-    .catch(err => {
-      res.status(500).json({ message: err.message });
-    });
-  };
-  
-  
+    } catch (error) {
+      console.log('Error:', error);
+      res.status(500).json({ message: error.message });
+    }
+};
 
-//exports.deleteuser
+exports.deleteUser = async (req, res, next) => {
+    try {
+        const userId = req.params.id; 
+        console.log('UserId:', userId);
+        console.log('UserData:', req.body);
+        const user = await db.User.destroy({
+          where: {
+            id: userId
+          }
+        });
+        if (user) {
+            res.status(200).json({
+                success: 'User deleted!'
+            })
+        } else {
+            res.status(401).json({
+                error: 'Unsuccessful'
+            })
+        }
+    } catch (error) {
+        next(error);
+    }
+}

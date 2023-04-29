@@ -8,9 +8,11 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.2.0",
     "nodemon": "^2.0.22",
+    "react-hook-form": "^7.43.9",
     "sequelize": "^6.30.0",
     "sqlite3": "^5.1.6",
-    "swagger-ui-express": "^4.6.2"
+    "swagger-ui-express": "^4.6.2",
+    "uuid": "^3.4.0"
   },
   "name": "backend",
   "version": "1.0.0",

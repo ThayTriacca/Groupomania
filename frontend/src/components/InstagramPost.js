@@ -11,7 +11,7 @@ import Typography from '@mui/joy/Typography';
 import MoreHoriz from '@mui/icons-material/MoreHoriz';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import LongMenu from './MoreVerticalMenu';
+import LongMenu from './LongMenu';
 import ImageAvatars from './avatar';
 
 

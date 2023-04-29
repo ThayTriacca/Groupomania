@@ -50,6 +50,7 @@ export default function SignIn() {
         const data = await response.json();
         sessionStorage.setItem('userId', data.userId);
         sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem('firstName', data.firstName);
         window.location = '/main';
         console.log(data.userId);
       } else {

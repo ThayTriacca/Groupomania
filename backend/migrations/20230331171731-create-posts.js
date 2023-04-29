@@ -9,22 +9,22 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      iduser: {
+      userId: {
         type: Sequelize.INTEGER,
         references: {
           model:'Users',
           key: 'id',
-          as: 'iduser'
+          as: 'userId'
         }
+      },
+      createdByName: {
+        type: Sequelize.STRING
       },
       content: {
         type: Sequelize.STRING
       },
-      media: {
+      imageUrl: {
         type: Sequelize.STRING
-      },
-      likes: {
-        type: Sequelize.INTEGER
       },
       readby: {
         type: Sequelize.STRING

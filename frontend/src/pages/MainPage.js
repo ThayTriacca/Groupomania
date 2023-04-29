@@ -31,9 +31,9 @@ class MainPage extends Component {
             <div className="App">
                 <ResponsiveAppBar />
                 <div className='Body'>
-                    {loaded && this.state.posts.length > 0 ? (
-                        this.state.posts.map(item => (
-                            <PostCard post={item} key={item.id} />
+                {loaded && posts.length > 0 ? (
+                        posts.map((post) => (
+                            <PostCard post={post} key={post.id} />
                         ))
                     ) : (
                         <p>No posts found.</p>
@@ -42,8 +42,6 @@ class MainPage extends Component {
             </div>
         );
     }
-
 };
-
 
 export default MainPage;
