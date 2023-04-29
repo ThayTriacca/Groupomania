@@ -10,9 +10,6 @@ import { BACKEND } from '../global';
 
 export default function PostCard(props) {
   const [user, setUser] = useState(null);
-  const [post, setPost] = useState(props.post);
-  const [images, setimages] = useState(null);
-  const [firstNameInitial, setFirstNameInitial] = useState('');
   const postDate = new Date(props.post.createdAt);
   const onlyDate = `${postDate.getDate()}-${postDate.getMonth() + 1}-${postDate.getFullYear()}`;
 
@@ -20,25 +17,17 @@ export default function PostCard(props) {
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        const [postResponse, userResponse, imagesResponse] = await Promise.all([
-          fetch(`${BACKEND}/post/${props.post.id}`),
-          fetch(`${BACKEND}/auth/${props.post.userId}`),
-          fetch(`${BACKEND}/post/${props.post.imageUrl}`)
-        ])
-  
-        if (postResponse.ok && userResponse.ok && imagesResponse) {
-          const postData = await postResponse.json();
+        const userResponse = await fetch(`${BACKEND}/auth/${props.post.userId}`);
+        if (userResponse.ok) {
           const userData = await userResponse.json();
-          const imagesData = await imagesResponse.json();
-          setPost(postData);
-          setUser(userData);
-          setimages(imagesData);
-          setFirstNameInitial(userData.firstName.charAt(0).toUpperCase());
+          console.table('users ',userData );
+          setUser(userData); 
         } else {
-          console.error('Erro ao buscar dados do post e/ou usuário:', postResponse.statusText, userResponse.statusText);
+          console.error('Erro ao buscar dados do usuário:', userResponse.statusText);
         }
+      
       } catch (error) {
-        console.error('Erro ao buscar dados do post e/ou usuário:', error);
+        console.error('Erro ao buscar dados: ', error);
       }
     };
   
@@ -72,12 +61,12 @@ export default function PostCard(props) {
         src={user?.profilePicture || ""}
         title={user?.firstName || ""}
       >
-        {!user?.profilePicture && user?.firstName ? (
+        {user?.profilePicture == null || user?.profilePicture == ''? (
           user.firstName.charAt(0).toUpperCase()
         ) : (
           <Avatar
             alt="User Profile"
-            src={user?.profilePicture || ""}
+            src={user?.profilePicture}
           />
         )}
       </Avatar>
@@ -99,7 +88,7 @@ export default function PostCard(props) {
       )}
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {post.content}
+          {props.post.content}
         </Typography>
       </CardContent>
       <CardHeader
