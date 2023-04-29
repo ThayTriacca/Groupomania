@@ -21,7 +21,7 @@ function RedBar() {
 export default class CreatePost extends Component {
     constructor(props) {
         super(props);
-        this.onFileChange = this.onFileChange.bind(this);
+      //  this.onFileChange = this.onFileChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.handleContentChange = this.handleContentChange.bind(this);
         this.state = {
@@ -30,26 +30,28 @@ export default class CreatePost extends Component {
             userId: sessionStorage.getItem('userId')
         }
     }
-    onFileChange(e){
+   /* onFileChange(e){
         if (e.target && e.target.files && e.target.files[0]) {
             this.setState({imageUrl: e.target.files[0]});
         }
-    }
+    }*/
     onSubmit(e) {
         e.preventDefault()
         const token = sessionStorage.getItem('token');
         const userId = sessionStorage.getItem('userId');
         const firstName = sessionStorage.getItem('firstName');
 
-        const formData = new FormData()
+        const formData = new FormData();
         
         formData.append('content', this.state.content);
         formData.append('userId', userId);
         formData.append('createdByName', firstName);
         console.log('Esse eh o ' + this.state.imageUrl);
         if (this.state.imageUrl) {
-            formData.append('imageUrl', this.state.imageUrl)
+            formData.append('image', this.state.imageUrl)
         }
+
+
         axios.post(`${BACKEND}/post`, formData, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -66,7 +68,7 @@ export default class CreatePost extends Component {
             <div className="PostPage">
                 <ResponsiveAppBar />
                 <div className='PostContainer'>
-                    <form enctype="multipart/form-data" onSubmit={this.onSubmit}>
+                    <form onSubmit={this.onSubmit}>
                     <div className='NewPostCard'>
                         <Box
                             sx={{
@@ -88,7 +90,9 @@ export default class CreatePost extends Component {
                                 value={this.state.content}
                                 onChange={this.handleContentChange}
                             />
-                            <UploadAndDisplayImage onChange={this.onFileChange} imageUrl={this.state.imageUrl} />
+                            <UploadAndDisplayImage onChange={(value)=> {
+                                this.setState({imageUrl: value});
+                            }} />
                             <RedBar />
                             <Button variant="contained" color="primary" component="span" onClick={this.onSubmit}>
                                 Add Post

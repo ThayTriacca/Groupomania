@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import Button from '@mui/material/Button';
 
-const UploadAndDisplayImage = ({ onChange }) => {
+const UploadAndDisplayImage = ( props ) => {
 
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleImageChange = (event) => {
     console.log(event.target.files[0]);
     setSelectedImage(event.target.files[0]);
-    onChange(event.target.files[0]);
+    if(event.target && event.target.files && event.target.files[0]){
+      props.onChange(event.target.files[0]);
+    }
+ 
   }
 
   return (
