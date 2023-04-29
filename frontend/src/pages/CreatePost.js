@@ -21,7 +21,6 @@ function RedBar() {
 export default class CreatePost extends Component {
     constructor(props) {
         super(props);
-      //  this.onFileChange = this.onFileChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.handleContentChange = this.handleContentChange.bind(this);
         this.state = {
@@ -30,11 +29,6 @@ export default class CreatePost extends Component {
             userId: sessionStorage.getItem('userId')
         }
     }
-   /* onFileChange(e){
-        if (e.target && e.target.files && e.target.files[0]) {
-            this.setState({imageUrl: e.target.files[0]});
-        }
-    }*/
     onSubmit(e) {
         e.preventDefault()
         const token = sessionStorage.getItem('token');
@@ -60,6 +54,7 @@ export default class CreatePost extends Component {
             console.log(res)
         })
     }
+    
     handleContentChange(e) {
         this.setState({ content: e.target.value });
     }

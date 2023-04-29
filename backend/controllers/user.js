@@ -98,6 +98,7 @@ exports.displayUser = (req, res, next) => {
 
 exports.updateprofile = async (req, res, next) => {
     try {
+        const url = req.protocol + '://' + req.get('host');
       const userId = req.params.id; 
       console.log('UserId:', userId);
       console.log('UserData:', req.body);
@@ -117,14 +118,8 @@ exports.updateprofile = async (req, res, next) => {
             email: req.body.email,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            profilePicture: url + '/images/' + req.file.filename
+            profilePicture: req.file ? url + '/images/' + req.file.filename : null
           };
-  
-        //   if (req.file) {
-        //     console.log("Profile Picture " + req.file.filename)
-        //     updatedUserData.profilePicture = req.file.filename;
-        //   }
-  
           const updatedUser = await user.update(updatedUserData);
         console.log('Updated User:', updatedUser);
         res.status(200).json({

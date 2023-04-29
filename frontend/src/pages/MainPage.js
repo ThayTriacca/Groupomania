@@ -5,6 +5,7 @@ import PostCard from '../components/PostCard';
 
 import '../styles/App.css';
 
+
 class MainPage extends Component {
 
     constructor(props) {
@@ -16,10 +17,11 @@ class MainPage extends Component {
     }
 
     componentDidMount() {
+        //Fetching data from API
         fetch(`${BACKEND}/post`)
             .then((res) => res.json())
             .then((data) => {
-                console.table('all posts', data);
+                //Updating state with fetched data
                 this.setState({ loaded: true, posts: data });
             })
             .catch((error) => { });

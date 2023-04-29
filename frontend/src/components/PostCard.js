@@ -9,49 +9,33 @@ import { Avatar } from '@mui/material';
 import { BACKEND } from '../global';
 
 export default function PostCard(props) {
+
+  //Initializing user state and formatting post date
   const [user, setUser] = useState(null);
   const postDate = new Date(props.post.createdAt);
   const onlyDate = `${postDate.getDate()}-${postDate.getMonth() + 1}-${postDate.getFullYear()}`;
 
-
+  //Fetching user data using useEffect hook when component is mounted
   useEffect(() => {
     const fetchPostData = async () => {
       try {
         const userResponse = await fetch(`${BACKEND}/auth/${props.post.userId}`);
         if (userResponse.ok) {
           const userData = await userResponse.json();
-          console.table('users ',userData );
           setUser(userData); 
         } else {
-          console.error('Erro ao buscar dados do usuário:', userResponse.statusText);
+          console.error('Error fetching user data:', userResponse.statusText);
         }
       
       } catch (error) {
-        console.error('Erro ao buscar dados: ', error);
+        console.error('Error fetching data: ', error);
       }
     };
   
     fetchPostData();
   }, []);
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     try {
-  //       const response = await fetch(`${BACKEND}/auth/${props.post.userId}`);
-  //       if (response.ok) {
-  //         const userData = await response.json();
-  //         setUser(userData);
-  //         setFirstNameInitial(userData.firstName.charAt(0).toUpperCase());
-  //       } else {
-  //         console.error('Erro ao buscar dados do usuário:', response.statusText);
-  //       }
-  //     } catch (error) {
-  //       console.error('Erro ao buscar dados do usuário:', error);
-  //     }
-  //   };
 
-  //   fetchUserData();
-  // }, []);
-
+  //Rendering the PostCard component
   return (
     <Card sx={{ maxWidth: 500, margin: 5 }}>
       <CardHeader
