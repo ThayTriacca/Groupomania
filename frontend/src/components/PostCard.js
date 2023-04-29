@@ -23,8 +23,8 @@ export default function PostCard(props) {
         const [postResponse, userResponse, imagesResponse] = await Promise.all([
           fetch(`${BACKEND}/post/${props.post.id}`),
           fetch(`${BACKEND}/auth/${props.post.userId}`),
-          fetch(`${BACKEND}/post/${props.post.images}`)
-        ]);
+          fetch(`${BACKEND}/post/${props.post.imageUrl}`)
+        ])
   
         if (postResponse.ok && userResponse.ok && imagesResponse) {
           const postData = await postResponse.json();
@@ -89,11 +89,12 @@ export default function PostCard(props) {
       </div>
     }
   />
-      {props.post.images && images && (
+      {props.post && props.post.imageUrl && (
         <CardMedia
           component="img"
           height="194"
-          image={images.url}
+          image={props.post.imageUrl}
+        
         />
       )}
       <CardContent>

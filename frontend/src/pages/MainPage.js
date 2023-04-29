@@ -19,6 +19,7 @@ class MainPage extends Component {
         fetch(`${BACKEND}/post`)
             .then((res) => res.json())
             .then((data) => {
+                console.table('all posts', data);
                 this.setState({ loaded: true, posts: data });
             })
             .catch((error) => { });
