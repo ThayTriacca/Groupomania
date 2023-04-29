@@ -62,7 +62,7 @@ export default function PostCard(props) {
         title={user?.firstName || ""}
       >
         {user?.profilePicture == null || user?.profilePicture == ''? (
-          user.firstName.charAt(0).toUpperCase()
+          user?.firstName.charAt(0).toUpperCase()
         ) : (
           <Avatar
             alt="User Profile"
