@@ -37,22 +37,22 @@ export default function PostCard(props) {
 
   //Rendering the PostCard component
   return (
-    <Card sx={{ maxWidth: 500, margin: 5 }}>
+    <Card sx={{ minWidth: 300, margin: 5 }}>
       <CardHeader
         avatar={
           <Avatar
-        alt="User Profile"
-        src={user?.profilePicture || ""}
-        title={user?.firstName || ""}
-      >
+          alt="User Profile"
+          src={user?.profilePicture || ""}
+          title={user?.firstName || ""}
+          >
         {user?.profilePicture == null || user?.profilePicture == ''? (
           user?.firstName.charAt(0).toUpperCase()
-        ) : (
-          <Avatar
+          ) : (
+            <Avatar
             alt="User Profile"
             src={user?.profilePicture}
-          />
-        )}
+            />
+            )}
       </Avatar>
     }
     action={

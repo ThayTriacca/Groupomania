@@ -77,9 +77,6 @@ exports.displayUser = (req, res, next) => {
         where: {
             id: req.params.id
         }
-        // attributes: {
-        //     exclude: ['password']
-        // }
     })
     .then ((user) => {
         if (user) {
@@ -123,7 +120,7 @@ exports.updateprofile = async (req, res, next) => {
           const updatedUser = await user.update(updatedUserData);
         console.log('Updated User:', updatedUser);
         res.status(200).json({
-          message: 'Updated successfully!',
+          message: 'Updated successfully! - ',
           user: updatedUser
         });
       }

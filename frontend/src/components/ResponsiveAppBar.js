@@ -41,7 +41,7 @@ function ResponsiveAppBar() {
         console.error('Erro ao buscar dados do usuário:', error);
       }
     };
-  
+
     fetchUserData();
   }, []);
 
@@ -68,7 +68,10 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <img src={logo} alt='Groupomania' className='gm-logo' />
+          <Link to="/main">
+            <img src={logo} alt='Groupomania' className='gm-logo' />
+          </Link>
+
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -126,7 +129,7 @@ function ResponsiveAppBar() {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User Profile" src={user?.profilePicture || ''}>
-                {!user?.profilePicture && user?.firstName ? user.firstName.charAt(0).toUpperCase() : <Avatar alt="User Profile" src={user?.profilePicture || ''} />}
+                  {!user?.profilePicture && user?.firstName ? user.firstName.charAt(0).toUpperCase() : <Avatar alt="User Profile" src={user?.profilePicture || ''} />}
                 </Avatar>
               </IconButton>
             </Tooltip>

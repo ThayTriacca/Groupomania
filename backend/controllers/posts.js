@@ -57,11 +57,11 @@ exports.modifyPosts = async (req, res, next) => {
       const filename = post.imageUrl ? post.imageUrl.split('/images/')[1] : null;
       if (filename) {
         fs.unlink('images/' + filename, () => {
-          post.destroy();
+          db.post.destroy();
           res.status(200).json({ message: 'Post deleted successfully!' });
         });
       } else {
-        post.destroy();
+        db.post.destroy();
         res.status(200).json({ message: 'Post deleted successfully!' });
       }
     } catch (error) {
@@ -81,28 +81,46 @@ exports.modifyPosts = async (req, res, next) => {
     }
   };
 
-// exports.postsLikes = async (req, res, next) => {
-//     const { id } = req.params;
-//     const { userId, like } = req.body;
-//     try {
-//       const post = await db.Posts.findOne({ where: { id } });
-//       if (!post) {
-//         return res.status(404).json({ message: 'Post not found' });
-//       }
-//       const usersLiked = post.usersLiked || [];
-//       const index = usersLiked.indexOf(userId);
-//       if (like === 1 && index === -1) {
-//         post.likes += 1;
-//         post.usersLiked = usersLiked.concat(userId);
-//       } else if (like === -1 && index !== -1) {
-//         post.likes -= 1;
-//         post.usersLiked.splice(index, 1);
-//       } else {
-//         return res.status(400).json({ message: 'Invalid request' });
-//       }
-//       await post.save();
-//       res.status(200).json({ message: `${like === 1 ? '+1' : '-1'} like` });
-//     } catch (error) {
-//       res.status(400).json({ error });
-//     }
-//   };
+  exports.readPosts = async (req, res, next) => {
+    const { id } = req.params;
+    const { userId } = req.body;
+    try {
+      const post = await db.Posts.findOne({ where: { id } });
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+      if (!post.userId !== req.user._id) {
+        return res.status(401).json({ message: 'Unathorized' });
+      }
+      if (!post.readby.inclused(userId)){
+        post.readby.push(userId);
+        await post.save();
+      }
+      res.json({ message: 'Post marked as read'});
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Server Error!'});
+    }
+  };
+  
+  exports.unreadPosts = async (req, res, next) => {
+    const { id } = req.params;
+    const { userId } = req.body;
+    try {
+      const post = await db.Posts.findOne({ where: { id } });
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+      if (!post.userId !== req.user._id) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      if (post.readby.includes(userId)){
+        post.readby.splice(post.readby.indexOf(userId), 1);
+        await post.save();
+      }
+      res.json({ message: 'Post marked as unread' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Server Error!' });
+    }
+  };

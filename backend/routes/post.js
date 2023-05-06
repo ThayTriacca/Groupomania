@@ -9,6 +9,7 @@ router.get('/:id', postCtrl.getOnePost);
 router.post('/', multer, postCtrl.createPosts);
 router.put('/:id', multer, postCtrl.modifyPosts);
 router.delete('/:id', auth, postCtrl.deletePosts);
-// router.post('/:id/like', auth, postCtrl.postsLikes);
+router.patch('/:id/read', auth, postCtrl.readPosts);
+router.patch('/:id/unread', auth, postCtrl.unreadPosts);
 
 module.exports = router;

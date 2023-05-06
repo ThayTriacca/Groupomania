@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
 
 const UploadAndDisplayImage = ( props ) => {
 
   const [selectedImage, setSelectedImage] = useState(null);
+
+  useEffect(() => {
+    if (props.value) {
+      setSelectedImage(props.value);
+    }
+  }, [props.value]);
 
   const handleImageChange = (event) => {
     console.log(event.target.files[0]);
