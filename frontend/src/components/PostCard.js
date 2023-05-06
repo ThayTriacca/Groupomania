@@ -58,7 +58,7 @@ export default function PostCard(props) {
     action={
       <div>
         <Typography fontWeight="lg">{user && user.firstName}</Typography>
-        <LongMenu />
+        <LongMenu post={props.post}/>
       </div>
     }
   />

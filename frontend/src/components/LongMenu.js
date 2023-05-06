@@ -23,27 +23,27 @@ export default function LongMenu(props) {
     const token = sessionStorage.getItem('token');
 
     axios.delete(`${BACKEND}/post/${props.post.id}/`, {
-    withCredentials: true,
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-   })
-   .then((response) => {
-    if (response.status === 204) {
-      console.log('Post deleted successfully');
-    } else {
-      console.log('Error deleting post:', response.statusText);
-    }
-  })
-  .catch((error) => {
-    console.log ('Error deleting:', error.message);
-  });
+      withCredentials: true,
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then((response) => {
+        if (response.status === 204) {
+          console.log('Post deleted successfully');
+        } else {
+          console.log('Error deleting post:', response.statusText);
+        }
+      })
+      .catch((error) => {
+        console.log('Error deleting:', error.message);
+      });
   };
 
   const handleMarkAsRead = () => {
     const token = sessionStorage.getItem('token');
     const userId = sessionStorage.getItem('userId');
-    
+
     axios.patch(`${BACKEND}/post/${props.post.id}/read`, {
       userId: userId
     }, {
@@ -52,12 +52,12 @@ export default function LongMenu(props) {
         'Authorization': `Bearer ${token}`
       }
     })
-    .then((response) => {
-      console.log('Post marked as read successfully');
-    })
-    .catch((error) => {
-      console.log('Error marking post as read:', error.message);
-    });
+      .then((response) => {
+        console.log('Post marked as read successfully');
+      })
+      .catch((error) => {
+        console.log('Error marking post as read:', error.message);
+      });
   };
 
   const handleMarkAsUnread = () => {
@@ -67,8 +67,8 @@ export default function LongMenu(props) {
       axios.patch(`${BACKEND}/post/${props.post.id}/unread `, {
         readby: [],
         userId: userId,
-      },{
-        headers: {'Content-Type': 'application/json'},
+      }, {
+        headers: { 'Content-Type': 'application/json' },
       })
         .then((response) => {
           if (response.ok) {
