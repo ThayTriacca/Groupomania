@@ -51,6 +51,7 @@ export default class CreatePost extends Component {
                 Authorization: `Bearer ${token}`
             }
         }) .then(res => {
+            window.location = '/main';
             console.log(res)
         })
     }

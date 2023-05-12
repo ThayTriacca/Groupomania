@@ -23,6 +23,7 @@ export default class Profile extends Component {
   }
 
   async fetchUserData() {
+    const profilePictureUrl = sessionStorage.getItem('profilePictureUrl');
     try {
       const response = await axios.get(`${BACKEND}/auth/${this.userId}`, {
         withCredentials: true,
@@ -38,7 +39,7 @@ export default class Profile extends Component {
           firstName: data.firstName,
           lastName: data.lastName,
           email: data.email,
-          profilePicture: data.profilePicture,
+          profilePicture: profilePictureUrl,
         });
         console.log('Inside fetchuserdata - Profile +' + data.profilePicture);
       } else {
@@ -79,8 +80,8 @@ export default class Profile extends Component {
       });
 
       console.log(response.data);
-      sessionStorage.setItem('profilePictureUrl', `http://localhost:9000/api/auth/${this.state.profilePicture} || "avatar.png"`);
-       //add profilePicture into session storage (http://localhost:9000/api/auth/${profilePicture || "avatar.png")
+      sessionStorage.setItem('profilePictureUrl', `http://localhost:9000/api/auth/${this.state.profilePicture}`);
+      window.location = '/main'; 
     } catch (error) {
       console.error(error);
     }

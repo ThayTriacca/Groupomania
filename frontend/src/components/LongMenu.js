@@ -11,6 +11,7 @@ const ITEM_HEIGHT = 48;
 export default function LongMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const firstName = sessionStorage.getItem('firstName');
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -19,6 +20,7 @@ export default function LongMenu(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const handleDelete = () => {
     const token = sessionStorage.getItem('token');
 
@@ -32,6 +34,7 @@ export default function LongMenu(props) {
         if (response.status === 204) {
           console.log('Post deleted successfully');
         } else {
+          window.location = '/main';
           console.log('Error deleting post:', response.statusText);
         }
       })
@@ -110,9 +113,14 @@ export default function LongMenu(props) {
           },
         }}
       >
-        <MenuItem onClick={handleMarkAsRead}>Mark as Read</MenuItem>
-        <MenuItem onClick={handleMarkAsUnread}>Mark as Unread</MenuItem>
-        <MenuItem onClick={handleDelete}>Delete</MenuItem>
+        {props.post.readby && props.post.readby.includes(sessionStorage.getItem('userId')) ? (
+          <MenuItem onClick={handleMarkAsUnread}>Mark as Unread</MenuItem>
+        ) : (
+          <MenuItem onClick={handleMarkAsRead}>Mark as Read</MenuItem>
+        )}
+        {props.post.userId == sessionStorage.getItem('userId') && (
+          <MenuItem onClick={handleDelete}>Delete</MenuItem>
+        )}
       </Menu>
     </div>
   );
