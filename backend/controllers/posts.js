@@ -91,10 +91,10 @@ exports.readPosts = async (req, res, next) => {
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
-    if (!post.userId !== req.user._id) {
-      return res.status(401).json({ message: 'Unathorized' });
+    if (!post.readby) {
+      post.readby = [];
     }
-    if (!post.readby.inclused(userId)) {
+    if (!post.readby.includes(userId)) {
       post.readby.push(userId);
       await post.save();
     }
@@ -113,7 +113,7 @@ exports.unreadPosts = async (req, res, next) => {
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
-    if (!post.userId !== req.user._id) {
+    if (!post.userId !== req.users.id) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
     if (post.readby.includes(userId)) {

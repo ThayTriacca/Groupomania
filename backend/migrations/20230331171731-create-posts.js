@@ -27,7 +27,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       readby: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
