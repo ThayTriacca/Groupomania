@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import LongMenu from "./LongMenu";
 import { Avatar } from "@mui/material";
@@ -76,7 +73,7 @@ export default function PostCard(props) {
         </div>
 
         <div className="post_content">
-          <Typography fz="sm" color="dimmed" lineClamp={4}>
+          <Typography variant="body2" color="text.secondary">
             {props.post.content}
           </Typography>
         </div>
@@ -85,53 +82,5 @@ export default function PostCard(props) {
         </div>
       </div>
     </div>
-
-
-    //   <div disableElevation variant="contained"sx={{ minWidth: 300, margin: 5 }}>
-    //     <CardHeader
-    //       avatar={
-    //         <Avatar
-    //         alt="User Profile"
-    //         src={user?.profilePicture || ""}
-    //         title={user?.firstName || ""}
-    //         >
-    //       {user?.profilePicture == null || user?.profilePicture == ''? (
-    //         user?.firstName.charAt(0).toUpperCase()
-    //         ) : (
-    //           <Avatar
-    //           alt="User Profile"
-    //           src={user?.profilePicture}
-    //           />
-    //           )}
-    //     </Avatar>
-    //   }
-    //   action={
-    //     <div>
-    //       <Typography fontWeight="lg">{user && user.firstName}</Typography>
-    //       <LongMenu post={props.post}/>
-    //     </div>
-    //   }
-    // />
-    //     {props.post && props.post.imageUrl && (
-    //       <CardMedia
-    //         component="img"
-    //         height="194"
-    //         image={props.post.imageUrl}
-
-    //       />
-    //     )}
-    //     <CardContent>
-    //       <Typography color="text.secondary">
-    //         {props.post.content}
-    //       </Typography>
-    //     </CardContent>
-    //     <CardHeader
-    //       subheader={
-    //         <Typography sx={{ className: 'subheader' }}>
-    //           {onlyDate}
-    //         </Typography>
-    //       }
-    //     />
-    //   </div>
   );
 }

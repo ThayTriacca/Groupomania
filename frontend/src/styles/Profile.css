@@ -3,9 +3,9 @@
     justify-content: center;
     align-items: center;
     background-color: #e3e0e0;
-    width: 800px;
+    width: fit-content;
     height: auto;
-    margin-top: 30px;
+    margin: 30px;
     border-radius: 20px;
     padding: 30px
 }
@@ -25,6 +25,7 @@
 
 .ProfileAvatar {
     margin-right: 50px;
+    order:-1;
 }
 
 .ProfileForm {
@@ -33,3 +34,36 @@
     row-gap: 20px;
     align-items: center;
 }
+
+.ProfileAvatar{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+}
+
+@media only screen and (max-width: 1233px) {
+    .ProfileCard{
+        width: fit-content;
+        margin: 40px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .ProfileAvatar{
+        margin: 10px;
+        order:2;
+    }
+    .ProfileButtons{
+        order:5;
+    }
+} 
+
+@media only screen and (max-width: 768px) {
+    .ProfileCard{
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+        height: fit-content;
+    }
+  }

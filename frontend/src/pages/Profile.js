@@ -1,3 +1,27 @@
+// import React, { Component } from 'react';
+// import { Button, TextField } from '@mui/material';
+// import Box from '@mui/material/Box';
+// import ImageAvatars from '../components/imageAvatar';
+// import ResponsiveAppBar from '../components/ResponsiveAppBar';
+// import '../styles/Profile.css';
+// import { BACKEND } from '../global';
+// import axios from 'axios';
+
+// export default class Profile extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.handleSubmit = this.handleSubmit.bind(this);
+//     this.handleProfilePictureChange = this.handleProfilePictureChange.bind(this);
+
+//     this.state = {
+//       userData: null,
+//       firstName: '',
+//       lastName: '',
+//       email: '',
+//       profilePicture: '',
+//     };
+//   }
+
 import React, { Component } from 'react';
 import { Button, TextField } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -124,22 +148,16 @@ export default class Profile extends Component {
       <div className="ProfilePage">
         <ResponsiveAppBar />
         <div className="ProfileCard">
-          <div className="ProfileAvatar">
-            <ImageAvatars onChange={(value) => {
-              this.setState({ profilePicture: value });
-            }} />
-          </div>
           <form onSubmit={this.handleSubmit}>
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                '& .MuiTextField-root': { width: '50ch' },
                 alignItems: 'center',
               }}
-            >
+              >
               <div className="ProfileForm">
-                <h2>Profile de {userData && userData.firstName}</h2>
+              <h2>Profile de {userData && userData.firstName}</h2>
                 <TextField
                   autoComplete="given-name"
                   name="firstName"
@@ -150,6 +168,12 @@ export default class Profile extends Component {
                   value={firstName}
                   onChange={(e) => this.setState({ firstName: e.target.value })}
                   autoFocus
+                  sx={{
+                    width: '50ch',
+                    '@media (max-width: 768px)': {
+                      width: '30ch',
+                    },
+                  }}
                 />
                 <TextField
                   required
@@ -160,6 +184,12 @@ export default class Profile extends Component {
                   autoComplete="family-name"
                   value={lastName}
                   onChange={(e) => this.setState({ lastName: e.target.value })}
+                  sx={{
+                    width: '50ch',
+                    '@media (max-width: 768px)': {
+                      width: '30ch',
+                    },
+                  }}
                 />
                 <TextField
                   required
@@ -170,8 +200,21 @@ export default class Profile extends Component {
                   autoComplete="email"
                   value={email}
                   onChange={(e) => this.setState({ email: e.target.value })}
+                  sx={{
+                    width: '50ch',
+                    '@media (max-width: 768px)': {
+                      width: '30ch',
+                    },
+                  }}
                 />
               </div>
+            </Box>
+          </form>
+          <div className="ProfileAvatar">
+            <ImageAvatars onChange={(value) => {
+              this.setState({ profilePicture: value });
+            }} />
+          </div>
               <div className="ProfileButtons">
                 <Button variant="contained" color="primary" type="submit" onClick={this.handleSubmit}>
                   Save Profile
@@ -180,13 +223,99 @@ export default class Profile extends Component {
                   Delete Profile
                 </Button>
               </div>
-            </Box>
-          </form>
         </div>
       </div>
     );
-  };
+  }
 }
+
+//   render() {
+//     const { userData, firstName, lastName, email } = this.state;
+
+//     return (
+//       <div className="ProfilePage">
+//         <ResponsiveAppBar />
+//         <div className="ProfileCard">
+//           <div className="ProfileAvatar">
+//             <ImageAvatars onChange={(value) => {
+//               this.setState({ profilePicture: value });
+//             }} />
+//           </div>
+//           <form onSubmit={this.handleSubmit}>
+//             <Box
+//               sx={{
+//                 display: 'flex',
+//                 flexDirection: 'column',
+//                 '& .MuiTextField-root': { width: '50ch' },
+//                 alignItems: 'center',
+//               }}
+//             >
+//               <div className="ProfileForm">
+//                 <h2>Profile de {userData && userData.firstName}</h2>
+//                 <TextField
+//                   autoComplete="given-name"
+//                   name="firstName"
+//                   required
+//                   id="firstName"
+//                   label="First Name"
+//                   value={firstName}
+//                   onChange={(e) => this.setState({ firstName: e.target.value })}
+//                   autoFocus
+//                   sx={{
+//                     width: '50ch',
+//                     '@media (max-width: 768px)': {
+//                       width: '30ch',
+//                     },
+//                   }}
+//                 />
+//                 <TextField
+//                   required
+//                   fullWidth
+//                   id="lastName"
+//                   label="Last Name"
+//                   name="lastName"
+//                   autoComplete="family-name"
+//                   value={lastName}
+//                   onChange={(e) => this.setState({ lastName: e.target.value })}
+//                   sx={{
+//                     width: '50ch',
+//                     '@media (max-width: 768px)': {
+//                       width: '30ch',
+//                     },
+//                   }}
+//                 />
+//                 <TextField
+//                   required
+//                   fullWidth
+//                   id="email"
+//                   label="Email Address"
+//                   name="email"
+//                   autoComplete="email"
+//                   value={email}
+//                   onChange={(e) => this.setState({ email: e.target.value })}
+//                   sx={{
+//                     width: '50ch',
+//                     '@media (max-width: 768px)': {
+//                       width: '30ch',
+//                     },
+//                   }}
+//                 />
+//               </div>
+//               <div className="ProfileButtons">
+//                 <Button variant="contained" color="primary" type="submit" onClick={this.handleSubmit}>
+//                   Save Profile
+//                 </Button>
+//                 <Button variant="contained" color="primary" onClick={this.handleDeleteProfile}>
+//                   Delete Profile
+//                 </Button>
+//               </div>
+//             </Box>
+//           </form>
+//         </div>
+//       </div>
+//     );
+//   };
+// }
 
 
 //------ Envia pro backend, porem envia como null

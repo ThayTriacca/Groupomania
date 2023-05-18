@@ -126,7 +126,7 @@ exports.markAsUnread = async (req, res, next) => {
     if (readByUsers.includes(userId)) {
       const index = readByUsers.indexOf(userId);
       readByUsers.splice(index, 1);
-      post.readby = readByUsers;
+      post.readby = readByUsers.join(',');
       await post.save();
       return res.status(200).json({ message: 'Post marked as unread' });
     }

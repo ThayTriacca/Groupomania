@@ -11,7 +11,8 @@ const ITEM_HEIGHT = 48;
 export default function LongMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  
+  const userId = sessionStorage.getItem('userId');
+  const readByUsers = props.post.readby ? props.post.readby.split(',') : [];
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -46,7 +47,7 @@ export default function LongMenu(props) {
   const handleMarkAsRead = () => {
     const token = sessionStorage.getItem('token');
     const userId = sessionStorage.getItem('userId');
-  
+
     axios.patch(`${BACKEND}/post/${props.post.id}/read`, {
       userId: userId
     }, {
@@ -57,16 +58,17 @@ export default function LongMenu(props) {
     })
       .then((response) => {
         console.log('Post marked as read successfully');
+        window.location = '/main';
       })
       .catch((error) => {
         console.log('Error marking post as read:', error.message);
       });
   };
-  
+
   const handleMarkAsUnread = () => {
     const userId = sessionStorage.getItem('userId');
     const token = sessionStorage.getItem('token');
-  
+
     axios.patch(
       `${BACKEND}/post/${props.post.id}/unread`,
       {
@@ -81,6 +83,7 @@ export default function LongMenu(props) {
     )
       .then((response) => {
         if (response.status === 200) {
+          window.location = '/main';
           console.log('Post marked as unread');
         } else {
           console.error('Error marking post as unread:', response);
@@ -90,44 +93,45 @@ export default function LongMenu(props) {
         console.error('Error marking post as unread:', error);
       });
   };
-  
-  
+
+
   return (
-        <div>
-          <IconButton
-            aria-label="more"
-            id="long-button"
-            aria-controls={open ? 'long-menu' : undefined}
-            aria-expanded={open ? 'true' : undefined}
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            <MoreVertIcon />
-          </IconButton>
-          <Menu
-            id="long-menu"
-            MenuListProps={{
-              'aria-labelledby': 'long-button',
-            }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            PaperProps={{
-              style: {
-                maxHeight: ITEM_HEIGHT * 4.5,
-                width: '20ch',
-              },
-            }}
-          >
-
-
-  <MenuItem onClick={handleMarkAsRead}>Mark as read</MenuItem>
-  <MenuItem onClick={handleMarkAsUnread}>Mark as unread</MenuItem>
-
-            {props.post.userId == sessionStorage.getItem('userId') && (
-              <MenuItem onClick={handleDelete}>Delete</MenuItem>
-            )}
-          </Menu>
-        </div>
-      );
-    }
+    <div>
+      <IconButton
+        aria-label="more"
+        id="long-button"
+        aria-controls={open ? 'long-menu' : undefined}
+        aria-expanded={open ? 'true' : undefined}
+        aria-haspopup="true"
+        onClick={handleClick}
+      >
+        <MoreVertIcon />
+      </IconButton>
+      <Menu
+        id="long-menu"
+        MenuListProps={{
+          'aria-labelledby': 'long-button',
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            maxHeight: ITEM_HEIGHT * 4.5,
+            width: '20ch',
+          },
+        }}
+      >
+        {readByUsers.includes(userId) ? (
+          <MenuItem onClick={handleMarkAsUnread}>Mark as unread</MenuItem>
+        ) : (
+          <MenuItem onClick={handleMarkAsRead}>Mark as read</MenuItem>
+        )
+        }
+        {props.post.userId == sessionStorage.getItem('userId') && (
+          <MenuItem onClick={handleDelete}>Delete</MenuItem>
+        )}
+      </Menu>
+    </div>
+  );
+}
