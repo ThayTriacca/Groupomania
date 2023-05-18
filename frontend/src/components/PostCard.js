@@ -1,87 +1,137 @@
-import React, { useState, useEffect } from 'react';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import LongMenu from './LongMenu'
-import { Avatar } from '@mui/material';
-import { BACKEND } from '../global';
+import React, { useState, useEffect } from "react";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import LongMenu from "./LongMenu";
+import { Avatar } from "@mui/material";
+import { BACKEND } from "../global";
+import '../styles/PostCard.css';
 
 export default function PostCard(props) {
-
   //Initializing user state and formatting post date
   const [user, setUser] = useState(null);
   const postDate = new Date(props.post.createdAt);
-  const onlyDate = `${postDate.getDate()}-${postDate.getMonth() + 1}-${postDate.getFullYear()}`;
+  const onlyDate = `${postDate.getDate()}-${postDate.getMonth() + 1
+    }-${postDate.getFullYear()}`;
 
   //Fetching user data using useEffect hook when component is mounted
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        const userResponse = await fetch(`${BACKEND}/auth/${props.post.userId}`);
+        const userResponse = await fetch(
+          `${BACKEND}/auth/${props.post.userId}`
+        );
         if (userResponse.ok) {
           const userData = await userResponse.json();
-          setUser(userData); 
+          setUser(userData);
         } else {
-          console.error('Error fetching user data:', userResponse.statusText);
+          console.error("Error fetching user data:", userResponse.statusText);
         }
-      
       } catch (error) {
-        console.error('Error fetching data: ', error);
+        console.error("Error fetching data: ", error);
       }
     };
-  
+
     fetchPostData();
   }, []);
 
   //Rendering the PostCard component
   return (
-    <Card sx={{ minWidth: 300, margin: 5 }}>
-      <CardHeader
-        avatar={
-          <Avatar
-          alt="User Profile"
-          src={user?.profilePicture || ""}
-          title={user?.firstName || ""}
-          >
-        {user?.profilePicture == null || user?.profilePicture == ''? (
-          user?.firstName.charAt(0).toUpperCase()
-          ) : (
+    <div className="post_card">
+      <div className="post_header">
+        <div className="post_owner_avatar">
+          {
             <Avatar
-            alt="User Profile"
-            src={user?.profilePicture}
-            />
-            )}
-      </Avatar>
-    }
-    action={
-      <div>
-        <Typography fontWeight="lg">{user && user.firstName}</Typography>
-        <LongMenu post={props.post}/>
+              alt="User Profile"
+              src={user?.profilePicture || ""}
+              title={user?.firstName || ""}
+            >
+              {user?.profilePicture == null || user?.profilePicture == "" ? (
+                user?.firstName.charAt(0).toUpperCase()
+              ) : (
+                <Avatar alt="User Profile" src={user?.profilePicture} />
+              )}
+            </Avatar>
+          }
+        </div>
+        <div className="post_owner_name">
+          <Typography fontWeight="lg">{user && user.firstName}</Typography>
+        </div>
+        <div className="post_longmenu">
+          <LongMenu post={props.post} />
+        </div>
       </div>
-    }
-  />
-      {props.post && props.post.imageUrl && (
-        <CardMedia
-          component="img"
-          height="194"
-          image={props.post.imageUrl}
-        
-        />
-      )}
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {props.post.content}
-        </Typography>
-      </CardContent>
-      <CardHeader
-        subheader={
-          <Typography variant="subtitle2" sx={{ className: 'subheader' }}>
-            {onlyDate}
+      <div className="post_body">
+        <div className="post_media">
+          {props.post && props.post.imageUrl && (
+            <CardMedia
+              component="img"
+              height="194"
+              image={props.post.imageUrl}
+
+            />
+          )}
+        </div>
+
+        <div className="post_content">
+          <Typography fz="sm" color="dimmed" lineClamp={4}>
+            {props.post.content}
           </Typography>
-        }
-      />
-    </Card>
+        </div>
+        <div className="post_date">
+          <Typography sx={{ className: "subheader" }}>{onlyDate}</Typography>
+        </div>
+      </div>
+    </div>
+
+
+    //   <div disableElevation variant="contained"sx={{ minWidth: 300, margin: 5 }}>
+    //     <CardHeader
+    //       avatar={
+    //         <Avatar
+    //         alt="User Profile"
+    //         src={user?.profilePicture || ""}
+    //         title={user?.firstName || ""}
+    //         >
+    //       {user?.profilePicture == null || user?.profilePicture == ''? (
+    //         user?.firstName.charAt(0).toUpperCase()
+    //         ) : (
+    //           <Avatar
+    //           alt="User Profile"
+    //           src={user?.profilePicture}
+    //           />
+    //           )}
+    //     </Avatar>
+    //   }
+    //   action={
+    //     <div>
+    //       <Typography fontWeight="lg">{user && user.firstName}</Typography>
+    //       <LongMenu post={props.post}/>
+    //     </div>
+    //   }
+    // />
+    //     {props.post && props.post.imageUrl && (
+    //       <CardMedia
+    //         component="img"
+    //         height="194"
+    //         image={props.post.imageUrl}
+
+    //       />
+    //     )}
+    //     <CardContent>
+    //       <Typography color="text.secondary">
+    //         {props.post.content}
+    //       </Typography>
+    //     </CardContent>
+    //     <CardHeader
+    //       subheader={
+    //         <Typography sx={{ className: 'subheader' }}>
+    //           {onlyDate}
+    //         </Typography>
+    //       }
+    //     />
+    //   </div>
   );
 }

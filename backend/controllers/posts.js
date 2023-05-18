@@ -59,13 +59,13 @@ exports.deletePosts = async (req, res, next) => {
       fs.unlink('images/' + filename, () => {
       });
     }
-    
-    db.Posts.destroy({where:{id: id}}).then((result)=>{
-      if(result == 1) res.status(200).json({ message: 'Post deleted successfully!' });
-    }).catch((error)=>{
+
+    db.Posts.destroy({ where: { id: id } }).then((result) => {
+      if (result == 1) res.status(200).json({ message: 'Post deleted successfully!' });
+    }).catch((error) => {
       res.status(400).json({ error });
     });
-    
+
   } catch (error) {
     res.status(400).json({ error });
   }
@@ -86,18 +86,22 @@ exports.getAllPosts = async (req, res, next) => {
 exports.readPosts = async (req, res, next) => {
   const { id } = req.params;
   const { userId } = req.body;
+
   try {
     const post = await db.Posts.findOne({ where: { id } });
+
     if (!post) {
-      return res.status(404).json({ message: 'Post not found' });
+      return res.status(404).json({ error: 'Post not found' });
     }
-    if (!post.readby) {
-      post.readby = [];
-    }
-    if (!post.readby.includes(userId)) {
-      post.readby.push(userId);
+
+    let readByUserIds = post.readby ? post.readby.split(',') : [];
+
+    if (!readByUserIds.includes(userId)) {
+      readByUserIds.push(userId);
+      post.readby = readByUserIds.join(',');
       await post.save();
     }
+
     res.json({ message: 'Post marked as read' });
   } catch (error) {
     console.error(error);
@@ -105,22 +109,29 @@ exports.readPosts = async (req, res, next) => {
   }
 };
 
-exports.unreadPosts = async (req, res, next) => {
+exports.markAsUnread = async (req, res, next) => {
   const { id } = req.params;
   const { userId } = req.body;
+
   try {
     const post = await db.Posts.findOne({ where: { id } });
+
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
-    if (!post.userId !== req.users.id) {
-      return res.status(401).json({ message: 'Unauthorized' });
+    if (typeof post.readby !== 'string') {
+      post.readby = '';
     }
-    if (post.readby.includes(userId)) {
-      post.readby.splice(post.readby.indexOf(userId), 1);
+    const readByUsers = post.readby ? post.readby.split(',') : [];
+    if (readByUsers.includes(userId)) {
+      const index = readByUsers.indexOf(userId);
+      readByUsers.splice(index, 1);
+      post.readby = readByUsers;
       await post.save();
+      return res.status(200).json({ message: 'Post marked as unread' });
     }
-    res.json({ message: 'Post marked as unread' });
+    return res.status(200).json({ message: 'Post already marked as unread' });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Server Error!' });

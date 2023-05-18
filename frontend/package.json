@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.10.6",
+    "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.10.6",
+    "@mantine/core": "^6.0.10",
+    "@mantine/hooks": "^6.0.10",
     "@mui/icons-material": "^5.11.11",
     "@mui/joy": "^5.0.0-alpha.73",
     "@mui/material": "^5.11.15",

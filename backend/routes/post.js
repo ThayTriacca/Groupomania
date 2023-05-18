@@ -10,6 +10,6 @@ router.post('/', multer, postCtrl.createPosts);
 router.put('/:id', multer, postCtrl.modifyPosts);
 router.delete('/:id', auth, postCtrl.deletePosts);
 router.patch('/:id/read', auth, postCtrl.readPosts);
-router.patch('/:id/unread', auth, postCtrl.unreadPosts);
+router.patch('/:id/unread', auth, postCtrl.markAsUnread);
 
 module.exports = router;

@@ -45,7 +45,6 @@ export default function LongMenu(props) {
 
   const handleMarkAsRead = () => {
     const token = sessionStorage.getItem('token');
-    console.log('markasread token eh ' + token);
     const userId = sessionStorage.getItem('userId');
   
     axios.patch(`${BACKEND}/post/${props.post.id}/read`, {
@@ -64,31 +63,35 @@ export default function LongMenu(props) {
       });
   };
   
-  
-
   const handleMarkAsUnread = () => {
     const userId = sessionStorage.getItem('userId');
-
-    if (Array.isArray(props.post.readby) && props.post.readby.includes(parseInt(userId))) {
-      axios.patch(`${BACKEND}/post/${props.post.id}/unread `, {
-        readby: [],
+    const token = sessionStorage.getItem('token');
+  
+    axios.patch(
+      `${BACKEND}/post/${props.post.id}/unread`,
+      {
         userId: userId,
-      }, {
-        headers: { 'Content-Type': 'application/json' },
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          console.log('Post marked as unread');
+        } else {
+          console.error('Error marking post as unread:', response);
+        }
       })
-        .then((response) => {
-          if (response.ok) {
-            console.log('Post marked as unread');
-          } else {
-            console.log('Error marking post as unread:', response.statusText);
-          }
-        })
-        .catch((error) => {
-          console.error('Error marking post as unread:', error);
-        });
-    }
+      .catch((error) => {
+        console.error('Error marking post as unread:', error);
+      });
   };
-
+  
+  
   return (
         <div>
           <IconButton
@@ -116,14 +119,11 @@ export default function LongMenu(props) {
               },
             }}
           >
-{props.post.readby && props.post.readby.includes(parseInt(sessionStorage.getItem('userId'))) ? (
-  console.log('Post already marked as read by user'),
-  <MenuItem onClick={handleMarkAsUnread}>Mark as Unread</MenuItem>
-) : (
-  <MenuItem onClick={handleMarkAsRead}>Mark as Read</MenuItem>
-)}
 
-    
+
+  <MenuItem onClick={handleMarkAsRead}>Mark as read</MenuItem>
+  <MenuItem onClick={handleMarkAsUnread}>Mark as unread</MenuItem>
+
             {props.post.userId == sessionStorage.getItem('userId') && (
               <MenuItem onClick={handleDelete}>Delete</MenuItem>
             )}

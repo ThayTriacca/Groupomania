@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     createdByName: DataTypes.STRING,
     content: DataTypes.STRING,
     imageUrl: DataTypes.STRING,
-    readby: DataTypes.INTEGER,
+    readby: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Posts',

@@ -17,7 +17,10 @@ import { Link } from 'react-router-dom';
 import handleLogout from './logout';
 import { BACKEND } from '../global';
 
-const pages = ['Home', 'Add Post'];
+const pages = [
+  {title: 'Home', link:'/main'},
+  {title: 'Add Post', link: '/create-post'}
+];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -102,8 +105,8 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="left">{page}</Typography>
+                <MenuItem key={page.title} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="left" component={Link} to={page.link}>{page.title}</Typography>
                 </MenuItem>
               ))}
             </Menu>

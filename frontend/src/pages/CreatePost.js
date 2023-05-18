@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
-import '../styles/PostCard.css'
+import '../styles/NewPostCard.css'
 import UploadAndDisplayImage from '../components/UploadImages';
 import { Button, Input } from '@mui/material';
 import { BACKEND } from '../global';
