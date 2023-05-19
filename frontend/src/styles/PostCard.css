@@ -15,7 +15,21 @@
 
 .post_content{
     padding: 10px;
+    position: relative;
 }
+
+.unread {
+    background-color: #1976d2;
+    color: #ffffff;
+    font-size: 12px;
+    width: 45px;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-left: 1rem;
+    position: absolute;
+    left: 50px;
+  }
 
 .post_media{
     padding: 10px;
@@ -29,6 +43,8 @@
     box-shadow: 1px 1px 3px grey;
     position: relative;
 }
+
+
 
 @media only screen and (max-width: 468px) {
     .post_card {

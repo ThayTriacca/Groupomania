@@ -6,9 +6,12 @@ import { Avatar } from "@mui/material";
 import { BACKEND } from "../global";
 import '../styles/PostCard.css';
 
+
 export default function PostCard(props) {
   //Initializing user state and formatting post date
   const [user, setUser] = useState(null);
+  const userId = sessionStorage.getItem('userId');
+  const [isRead, setIsRead] = useState(props.post.readby && props.post.readby.includes(userId));
   const postDate = new Date(props.post.createdAt);
   const onlyDate = `${postDate.getDate()}-${postDate.getMonth() + 1
     }-${postDate.getFullYear()}`;
@@ -38,6 +41,9 @@ export default function PostCard(props) {
   return (
     <div className="post_card">
       <div className="post_header">
+      {!isRead && (
+  <span className="unread">New</span>
+)}
         <div className="post_owner_avatar">
           {
             <Avatar
@@ -57,7 +63,7 @@ export default function PostCard(props) {
           <Typography fontWeight="lg">{user && user.firstName}</Typography>
         </div>
         <div className="post_longmenu">
-          <LongMenu post={props.post} />
+        <LongMenu post={props.post} setIsRead={setIsRead} />
         </div>
       </div>
       <div className="post_body">

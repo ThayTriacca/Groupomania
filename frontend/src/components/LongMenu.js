@@ -58,6 +58,7 @@ export default function LongMenu(props) {
     })
       .then((response) => {
         console.log('Post marked as read successfully');
+        props.setIsRead(true);
         window.location = '/main';
       })
       .catch((error) => {
@@ -83,8 +84,8 @@ export default function LongMenu(props) {
     )
       .then((response) => {
         if (response.status === 200) {
-          window.location = '/main';
           console.log('Post marked as unread');
+          window.location = '/main';
         } else {
           console.error('Error marking post as unread:', response);
         }
