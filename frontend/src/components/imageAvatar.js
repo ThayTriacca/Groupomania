@@ -13,11 +13,12 @@ export default class ImageAvatars extends Component {
   }
 
   handleUpload = (value) => {
-   
+   // Update the state with the uploaded profile picture and hide the avatar
     this.setState({
       profilePicture: value,
       showAvatar: false
     }, () => {
+      // Call the onChange callback prop and pass the profile picture value
       this.props.onChange(this.state.profilePicture);
     });
     console.log('Inside handleupload' + this.state.profilePicture);

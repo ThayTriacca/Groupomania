@@ -37,6 +37,7 @@ class SignUp extends React.Component {
       password: password,
     };
 
+    // Send a POST request to the backend with the user data for signup
     fetch(`${BACKEND}/auth/signup`, {
       method: 'POST',
       headers: {
@@ -49,6 +50,7 @@ class SignUp extends React.Component {
     .then(async data => {
       console.log(data);
       try {
+        // After successful signup, send a POST request to the backend with the same email and password for login
         const response = await fetch(`${BACKEND}/auth/login`, {
           method: 'POST',
           headers: {
@@ -59,6 +61,7 @@ class SignUp extends React.Component {
         });
   
         if (response.ok) {
+          // If the login response is successful, extract the data from the response and store it in session storage
           const data = await response.json();
           sessionStorage.setItem('userId', data.userId);
           sessionStorage.setItem('token', data.token);
@@ -66,15 +69,18 @@ class SignUp extends React.Component {
           window.location = '/main';
           console.log(data.userId);
         } else {
+          // If there's an error, throw an error with the error message received from the backend
           const error = await response.json();
           throw new Error(error.message);
         }
       } catch (error) {
+        // Catch any errors that occur during the login request and display an alert with the error message
         alert("Error: " + error.message);
         console.error(error);
       }
     })
     .catch(error => {
+      // Catch any errors that occur during the signup request and display an alert with the error message
       alert("Error " + error.message);
       console.error(error);
     });

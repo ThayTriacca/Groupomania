@@ -1,27 +1,3 @@
-// import React, { Component } from 'react';
-// import { Button, TextField } from '@mui/material';
-// import Box from '@mui/material/Box';
-// import ImageAvatars from '../components/imageAvatar';
-// import ResponsiveAppBar from '../components/ResponsiveAppBar';
-// import '../styles/Profile.css';
-// import { BACKEND } from '../global';
-// import axios from 'axios';
-
-// export default class Profile extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.handleSubmit = this.handleSubmit.bind(this);
-//     this.handleProfilePictureChange = this.handleProfilePictureChange.bind(this);
-
-//     this.state = {
-//       userData: null,
-//       firstName: '',
-//       lastName: '',
-//       email: '',
-//       profilePicture: '',
-//     };
-//   }
-
 import React, { Component } from 'react';
 import { Button, TextField } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -49,6 +25,7 @@ export default class Profile extends Component {
   async fetchUserData() {
     const profilePictureUrl = sessionStorage.getItem('profilePictureUrl');
     try {
+      // Fetch user data from the backend
       const response = await axios.get(`${BACKEND}/auth/${this.userId}`, {
         withCredentials: true,
         headers: {
@@ -58,6 +35,7 @@ export default class Profile extends Component {
 
       if (response.status === 200) {
         const data = response.data;
+        // Update state with the fetched user data
         this.setState({
           userData: data,
           firstName: data.firstName,
@@ -75,6 +53,7 @@ export default class Profile extends Component {
   };
 
   handleProfilePictureChange = (value) => {
+    // Update the profile picture in state
     this.setState({
       profilePicture: value
     });
@@ -96,6 +75,7 @@ export default class Profile extends Component {
     }
 
     try {
+      // Submit the updated user data to the backend
       const response = await axios.put(`${BACKEND}/auth/${this.userId}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -114,6 +94,7 @@ export default class Profile extends Component {
 
   handleDeleteProfile = async () => {
     try {
+      // Delete the user profile from the backend
       const response = await axios.delete(`${BACKEND}/auth/${this.userId}`, {
         withCredentials: true,
         headers: {
@@ -123,6 +104,7 @@ export default class Profile extends Component {
 
       if (response.status === 200) {
         console.log('Profile deleted successfully!');
+        // Remove user details from session storage
         sessionStorage.removeItem('userId');
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('firstName');
@@ -228,101 +210,3 @@ export default class Profile extends Component {
     );
   }
 }
-
-//   render() {
-//     const { userData, firstName, lastName, email } = this.state;
-
-//     return (
-//       <div className="ProfilePage">
-//         <ResponsiveAppBar />
-//         <div className="ProfileCard">
-//           <div className="ProfileAvatar">
-//             <ImageAvatars onChange={(value) => {
-//               this.setState({ profilePicture: value });
-//             }} />
-//           </div>
-//           <form onSubmit={this.handleSubmit}>
-//             <Box
-//               sx={{
-//                 display: 'flex',
-//                 flexDirection: 'column',
-//                 '& .MuiTextField-root': { width: '50ch' },
-//                 alignItems: 'center',
-//               }}
-//             >
-//               <div className="ProfileForm">
-//                 <h2>Profile de {userData && userData.firstName}</h2>
-//                 <TextField
-//                   autoComplete="given-name"
-//                   name="firstName"
-//                   required
-//                   id="firstName"
-//                   label="First Name"
-//                   value={firstName}
-//                   onChange={(e) => this.setState({ firstName: e.target.value })}
-//                   autoFocus
-//                   sx={{
-//                     width: '50ch',
-//                     '@media (max-width: 768px)': {
-//                       width: '30ch',
-//                     },
-//                   }}
-//                 />
-//                 <TextField
-//                   required
-//                   fullWidth
-//                   id="lastName"
-//                   label="Last Name"
-//                   name="lastName"
-//                   autoComplete="family-name"
-//                   value={lastName}
-//                   onChange={(e) => this.setState({ lastName: e.target.value })}
-//                   sx={{
-//                     width: '50ch',
-//                     '@media (max-width: 768px)': {
-//                       width: '30ch',
-//                     },
-//                   }}
-//                 />
-//                 <TextField
-//                   required
-//                   fullWidth
-//                   id="email"
-//                   label="Email Address"
-//                   name="email"
-//                   autoComplete="email"
-//                   value={email}
-//                   onChange={(e) => this.setState({ email: e.target.value })}
-//                   sx={{
-//                     width: '50ch',
-//                     '@media (max-width: 768px)': {
-//                       width: '30ch',
-//                     },
-//                   }}
-//                 />
-//               </div>
-//               <div className="ProfileButtons">
-//                 <Button variant="contained" color="primary" type="submit" onClick={this.handleSubmit}>
-//                   Save Profile
-//                 </Button>
-//                 <Button variant="contained" color="primary" onClick={this.handleDeleteProfile}>
-//                   Delete Profile
-//                 </Button>
-//               </div>
-//             </Box>
-//           </form>
-//         </div>
-//       </div>
-//     );
-//   };
-// }
-
-
-//------ Envia pro backend, porem envia como null
-
-{/* <ImageAvatars onChange={(value) => {
-  this.setState({ imageUrl: value });
-}} />     */}
-
-//------ Nao envia pro backend, mas reconhece o value
-{/* <ImageAvatars onChange={this.handleProfilePictureChange} /> */ }

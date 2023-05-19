@@ -37,6 +37,7 @@ export default function SignIn() {
     event.preventDefault();
 
     try {
+      // Send a POST request to the backend with the provided email and password
       const response = await fetch(`${BACKEND}/auth/login`, {
         method: 'POST',
         headers: {
@@ -47,6 +48,7 @@ export default function SignIn() {
       });
 
       if (response.ok) {
+        // If the response is successful, extract the data from the response and store it in session storage
         const data = await response.json();
         sessionStorage.setItem('userId', data.userId);
         sessionStorage.setItem('token', data.token);
@@ -54,10 +56,12 @@ export default function SignIn() {
         window.location = '/main';
         console.log(data.userId);
       } else {
+        // If there's an error, throw an error with the error message received from the backend
         const error = await response.json();
         throw new Error(error.message);
       }
     } catch (error) {
+      // Catch any errors that occur during the request and display an alert with the error message
       alert("Error: " + error.message);
       console.error(error);
     }
