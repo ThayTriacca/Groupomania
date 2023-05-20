@@ -41,6 +41,7 @@ export default function PostCard(props) {
   return (
     <div className="post_card">
       <div className="post_header">
+        {/* Display "New" label if post is unread */}
       {!isRead && (
   <span className="unread">New</span>
 )}
@@ -63,11 +64,13 @@ export default function PostCard(props) {
           <Typography fontWeight="lg">{user && user.firstName}</Typography>
         </div>
         <div className="post_longmenu">
+          {/* Render the LongMenu component with post data */}
         <LongMenu post={props.post} setIsRead={setIsRead} />
         </div>
       </div>
       <div className="post_body">
         <div className="post_media">
+          {/* Display post image if available */}
           {props.post && props.post.imageUrl && (
             <CardMedia
               component="img"

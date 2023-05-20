@@ -100,7 +100,7 @@ export default class CreatePost extends Component {
                     },
                   }}
                 />
-                <UploadAndDisplayImage onChange={(value) => {
+                <UploadAndDisplayImage  onChange={(value) => {
                   // Update the imageURL state when a new image is selected
                   this.setState({ imageUrl: value });
                 }} />

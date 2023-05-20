@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
 
-const UploadAndDisplayImage = ( props ) => {
+const UploadProfileAndDisplayImage = ( props ) => {
 
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isUploaded, setisUploaded] = useState(false);
 
   useEffect(() => {
     if (props.value) {
@@ -11,27 +12,33 @@ const UploadAndDisplayImage = ( props ) => {
     }
   }, [props.value]);
 
+ 
+ 
   const handleImageChange = (event) => {
     console.log(event.target.files[0]);
     setSelectedImage(event.target.files[0]);
     if(event.target && event.target.files && event.target.files[0]){
       props.onChange(event.target.files[0]);
     }
+    setisUploaded(true);
+
   }
+
+    //uploaded  = URL.createObjectURL(
+  let image =  isUploaded? URL.createObjectURL(selectedImage): selectedImage;
 
   return (
     <div>
-      {selectedImage && (
+      {selectedImage && isUploaded && (
         <div>
           <img
-            alt="not found"
             width={"250px"}
-            src={URL.createObjectURL(selectedImage)}
+            src={image}
           />
           <br />
           <Button variant="contained" onClick={() => setSelectedImage(null)}>Remove</Button>
-        </div>
-      )}
+        </div>)
+      }
 
       <br />
       <br />
@@ -51,4 +58,4 @@ const UploadAndDisplayImage = ( props ) => {
   );
 };
 
-export default UploadAndDisplayImage;
+export default UploadProfileAndDisplayImage;

@@ -22,9 +22,10 @@ export default function LongMenu(props) {
     setAnchorEl(null);
   };
 
+  // Function to delete post
   const handleDelete = () => {
     const token = sessionStorage.getItem('token');
-
+    // Send a DELETE request to the server to delete the post
     axios.delete(`${BACKEND}/post/${props.post.id}/`, {
       withCredentials: true,
       headers: {
@@ -44,10 +45,12 @@ export default function LongMenu(props) {
       });
   };
 
+  // Function to mark the post as read
   const handleMarkAsRead = () => {
     const token = sessionStorage.getItem('token');
     const userId = sessionStorage.getItem('userId');
 
+    // Send a PATCH request to the server to mark the post as read
     axios.patch(`${BACKEND}/post/${props.post.id}/read`, {
       userId: userId
     }, {
@@ -66,10 +69,12 @@ export default function LongMenu(props) {
       });
   };
 
+  // Function to mark the post as unread
   const handleMarkAsUnread = () => {
     const userId = sessionStorage.getItem('userId');
     const token = sessionStorage.getItem('token');
 
+    // Send a PATCH request to the server to mark the post as unread
     axios.patch(
       `${BACKEND}/post/${props.post.id}/unread`,
       {
