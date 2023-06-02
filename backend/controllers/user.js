@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const db = require('../models/index');
-const user = require('../models/user');
+//const user = require('../models/user');
 const multer = require('../middleware/multer-config');
 const e = require('express');
 
@@ -133,22 +133,29 @@ exports.updateprofile = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
     try {
         const userId = req.params.id; 
-        console.log('UserId:', userId);
-        console.log('UserData:', req.body);
-        const user = await db.User.destroy({
-          where: {
-            id: userId
-          }
-        });
-        if (user) {
-            res.status(200).json({
-                success: 'User deleted!'
-            })
-        } else {
+        console.log('úder id to delete ' + userId);
+
+        //Implementing cascate delete, deleting all the posts related to the user before deleting the user
+        db.Posts.destroy({ where: { userId: userId } }).then(async () => {
+            const user = await db.User.destroy({
+                where: {
+                  id: userId
+                }
+              });
+              if (user) {
+                  res.status(200).json({
+                      success: 'User deleted!'
+                  });
+              } else {
+                  res.status(401).json({
+                      error: 'Unsuccessful'
+                  });
+              }
+        }).catch((_) => {
             res.status(401).json({
                 error: 'Unsuccessful'
-            })
-        }
+            });
+        });
     } catch (error) {
         next(error);
     }
