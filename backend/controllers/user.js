@@ -133,7 +133,6 @@ exports.updateprofile = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
     try {
         const userId = req.params.id; 
-        console.log('úder id to delete ' + userId);
 
         //Implementing cascate delete, deleting all the posts related to the user before deleting the user
         db.Posts.destroy({ where: { userId: userId } }).then(async () => {
